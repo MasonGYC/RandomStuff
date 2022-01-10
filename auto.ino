@@ -138,7 +138,7 @@ void loop() {
   //B&C:up is 1000, middle is 1500, down is 2000
   //down is default
   if(swc >= 1400 and swc<=1600) {autonomous_blue();}
-  elif(swc >= 1900 and swc<=2100) {autonomous_red();}
+  elif(swc >= 1800 and swc<=2000) {autonomous_red();}
 
   
   
