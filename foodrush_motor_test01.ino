@@ -441,11 +441,12 @@ float ir_read(){
 void follow_line(){
   irl_val,irm_val,irr_val = ir_read();
   //0 is white, 1 is black
-  if (irm_val == 1 && irl_val == 0 && irr_val == 0){
+  while (irm_val == 1 && irl_val == 0 && irr_val == 0){
     leftFwd();
     rightFwd();
     Dir = true;
     speed_Check(Dir, 1600, 1500, 1550, 2000);
+    delaymicroseconds(10)
   }
 }
 
