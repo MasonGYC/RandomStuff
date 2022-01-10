@@ -354,29 +354,56 @@ float distance(){
 }
 
 void pick(int channel, double theta, float diag){
-  if channel == ?{pick_cube(double theta, float diag)}
-  elif channel == ?{pick_ball(double theta, float diag)}
+  //cube
+  if channel == 
+  {int lower = 30;
+   int upper = 100;
+   double beta = ;//fix an angle to pick cube
+    pick_helper(double theta, float diag, int lower, int upper, double beta)
+    }
+  //ball
+  elif channel == 
+  {int lower = 15;
+   int upper = 45;
+   double beta = ;//fix an angle to pick ball
+    pick_helper(double theta, float diag, int lower, int upper, double beta)
+    }
 }
 
-void pick_cube(double theta, float diag){
-  float c_l = 30;//the lower lim of dist btw tip of gripper and inner edge of cube/ball
-  float c_u = 100;//same, upper lim
-  double beta = ;//init a beta, then adjust it
+void pick_helper(double theta, float diag, int lower, int upper, double beta){
   double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
-  while 1{
-    d = distance();
-    double c = sin(beta)*diag-d+s;
-    if (c>=c_l){beta++} 
-    elif (c<= c_u){beta--}
-    else break
+  while (c<=c_l or c>=c_u)
+  {
+    c = diag*sin(beta)-d+s;
+    if (c<=c_l){
+    //forward
+    leftFwd();
+    rightFwd();
+    Dir = true;
+    speed_Check(Dir, 1600, 1500, 1550, 2000);
+    }
+    elif (c>=c_u){
+     //backward
+    leftBwd();
+    rightBwd();
+    Dir = false;
+    speed_Check(Dir, 1100, 1500, 1450, 1000);
+    }
+    delaymicroseconds(100)
   }
-  pos_base1 = pos_base2 = beta+theta
+  //close gripper
+  pos_gripper = ;
+  servo_gripper.write(pos_gripper);
+  //lift arm to nearly vertical
+  pos_base1 = ;
+  pos_base2 = ;
+  servo_base1.write(pos_base1);
+  servo_base2.write(pos_base2);
   
-  
-  
-
 }
 
-void pick_ball(double theta, float diag){
-  
+//release the ball to the stovetop
+void release(){
+  pos_gripper = ;
+  servo_gripper.write(pos_gripper);
 }
