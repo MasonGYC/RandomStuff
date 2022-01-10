@@ -48,6 +48,7 @@ float distance;
 float diag = 184.3; //the distance betwn the tip of the gripper and the arm
 float gripper_len = ;//len of whole gripper
 double theta = asin(gripper_len/diag);//angle betwn diag line and arm, to calc angle of 2 base servo
+float s = ;//dist btw the fron edge of servo mount and the ultra sensor
 
 
 void setup() {
@@ -352,17 +353,30 @@ float distance(){
   return distance;
 }
 
-void pick(int channel, distance, theta, diag){
-  
-  if channel == {pick_cube()}
-  elif channel == {pick_ball()}
+void pick(int channel, double theta, float diag){
+  if channel == ?{pick_cube(double theta, float diag)}
+  elif channel == ?{pick_ball(double theta, float diag)}
 }
 
-void pick_cube(){
+void pick_cube(double theta, float diag){
+  float c_l = 30;//the lower lim of dist btw tip of gripper and inner edge of cube/ball
+  float c_u = 100;//same, upper lim
+  double beta = ;//init a beta, then adjust it
+  double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
+  while 1{
+    d = distance();
+    double c = sin(beta)*diag-d+s;
+    if (c>=c_l){beta++} 
+    elif (c<= c_u){beta--}
+    else break
+  }
+  pos_base1 = pos_base2 = beta+theta
+  
+  
   
 
 }
 
-void pick_ball(){
+void pick_ball(double theta, float diag){
   
 }
