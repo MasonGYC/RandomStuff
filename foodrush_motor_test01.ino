@@ -356,10 +356,6 @@ int readChannel(int channelNumber) {
   return value;
 }
 
-
-
-
-
 float distance(){
   // Clears the trigPin condition
   digitalWrite(trigPin, LOW);
@@ -400,27 +396,7 @@ void pick(int channel, double theta, float diag){
 
 void pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper){
   double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
-  while (c<=c_l or c>=c_u)
-  {
-    c = diag*sin(beta)-d+s;
-    if (c<=c_l){
-    //forward
-    leftFwd();
-    rightFwd();
-    Dir = true;
-    speed_Check(Dir, 1600, 1500, 1550, 2000);
-    }
-    elif (c>=c_u){
-     //backward
-    leftBwd();
-    rightBwd();
-    Dir = false;
-    speed_Check(Dir, 1100, 1500, 1450, 1000);
-    }
-    delaymicroseconds(10)
-  }
-  //close gripper
-  servo_gripper.write(pos_gripper);
+  
   //lift arm to nearly vertical
   pos_base1 = pos_base2 = ;
   servo_base1.write(pos_base1);
