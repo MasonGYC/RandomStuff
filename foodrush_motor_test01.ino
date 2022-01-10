@@ -381,18 +381,20 @@ void pick(int channel, double theta, float diag){
   {int lower = 30;
    int upper = 100;
    double beta = ;//fix an angle to pick cube
-    pick_helper(double theta, float diag, int lower, int upper, double beta)
+   float pos_gripper = ;//angle for picking up
+   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
     }
   //ball
   elif channel == 
   {int lower = 15;
    int upper = 45;
    double beta = ;//fix an angle to pick ball
-    pick_helper(double theta, float diag, int lower, int upper, double beta)
+   float pos_gripper = ;//angle for picking up
+   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
     }
 }
 
-void pick_helper(double theta, float diag, int lower, int upper, double beta){
+void pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper){
   double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
   while (c<=c_l or c>=c_u)
   {
@@ -414,11 +416,9 @@ void pick_helper(double theta, float diag, int lower, int upper, double beta){
     delaymicroseconds(10)
   }
   //close gripper
-  pos_gripper = ;
   servo_gripper.write(pos_gripper);
   //lift arm to nearly vertical
-  pos_base1 = ;
-  pos_base2 = ;
+  pos_base1 = pos_base2 = ;
   servo_base1.write(pos_base1);
   servo_base2.write(pos_base2);
   
@@ -426,7 +426,7 @@ void pick_helper(double theta, float diag, int lower, int upper, double beta){
 
 //release the ball to the stovetop
 void release(){
-  pos_gripper = ;
+  pos_gripper = ;//widest angle for releasing object
   servo_gripper.write(pos_gripper);
 }
 
@@ -441,6 +441,5 @@ float ir_read(){
 void autonomous(int channel){
     irl_val,irm_val,irr_val = ir_read();
     
-    //finish auto
-    if () break;
+    
 }
