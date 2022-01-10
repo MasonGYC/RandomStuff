@@ -356,6 +356,10 @@ int readChannel(int channelNumber) {
   return value;
 }
 
+
+
+
+
 float distance(){
   // Clears the trigPin condition
   digitalWrite(trigPin, LOW);
