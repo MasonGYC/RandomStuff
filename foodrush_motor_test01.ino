@@ -40,7 +40,23 @@ int L_Speed = 0;
 int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
+//init utltrasonic sensor params
+int echoPin = ;
+int trigPin = ;
+long duration;
+float distance;
+float diag = 184.3; //the distance betwn the tip of the gripper and the arm
+float s = ;//dist btw the fron edge of servo mount and the ultra sensor
 
+//init IR sensor pins
+int irPinl = 4;//IR sensor digital pin left
+int irPinm = 7;//IR sensor digital pin middle
+int irPinr = 8;//IR sensor digital pin right
+
+/*mayn not use but may use to terminate
+int interruptPin = ;//any digital pin that is unused for terminating auto periord
+volatile byte state = LOW;//LOW means auto is starting
+*/
 
 void setup() {
   //Assign servo motors to pins, can be any digital pins
@@ -71,6 +87,19 @@ void setup() {
   //Start serial comm for troubleshooting through serial monitor
   //Serial.begin(baud rate);
   Serial.begin(115200);
+  
+  //setup utrasonic sensor
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  
+  //set up irsensor pins
+  pinMode(irPinl, INPUT);
+  pinMode(irPinm, INPUT);
+  pinMode(irPinr, INPUT);
+  
+  /*for interrupt
+  pinMode(interruptPin, INPUT);
+  attachInterrupt(digitalPinToInterrupt(interruptPin),terminate , HIGH);*/
 }
 
 
@@ -95,6 +124,13 @@ void loop() {
   int swd = readChannel(6);
   int swb = readChannel(7);
   int swc = readChannel(8);
+  
+  //start auto function
+  while() {autonomous()}
+  //insert channel value for starting auto period
+  //one iteration is calc to be 30 sec sharp, will be terminate when pressed another button?
+
+  
   
 
   //If the left stick is pushed down, wheels on both sides will
@@ -185,6 +221,11 @@ void loop() {
     pos_gripper = 70;
     servo_gripper.write(pos_gripper);
     }
+  
+  //ultra sensor to calc dist and then pickup ball/cube
+
+  
+  
 
 
     
@@ -313,4 +354,97 @@ int readChannel(int channelNumber) {
   //Serial.print(value);
   //Serial.println(", ");
   return value;
+}
+
+float distance(){
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  return distance;
+}
+
+void pick(int channel, double theta, float diag){
+  //cube
+  if channel == 
+  {int lower = 30;
+   int upper = 100;
+   double beta = ;//fix an angle to pick cube
+   float pos_gripper = ;//angle for picking up
+   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
+    }
+  //ball
+  elif channel == 
+  {int lower = 15;
+   int upper = 45;
+   double beta = ;//fix an angle to pick ball
+   float pos_gripper = ;//angle for picking up
+   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
+    }
+}
+
+void pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper){
+  double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
+  
+  //lift arm to nearly vertical
+  pos_base1 = pos_base2 = ;
+  servo_base1.write(pos_base1);
+  servo_base2.write(pos_base2);
+  
+}
+
+//release the ball to the stovetop
+void release(){
+  pos_gripper = ;//widest angle for releasing object
+  servo_gripper.write(pos_gripper);
+}
+
+//read irsensor val,return analog and digit values
+float ir_read(){
+  irl_val = digitalRead(irPinl);
+  irm_val = digitalRead(irPinm);
+  irr_val = digitalRead(irPinr);
+  return irl_val,irm_val,irr_val;
+}
+
+void follow_line(){
+  irl_val,irm_val,irr_val = ir_read();
+  //0 is white, 1 is black
+  while (irm_val == 1 && irl_val == 0 && irr_val == 0){
+    leftFwd();
+    rightFwd();
+    Dir = true;
+    speed_Check(Dir, 1600, 1500, 1550, 2000);
+    delaymicroseconds(10)
+  }
+}
+
+void autonomous(int channel){
+  //read sensor value and do sth
+    irl_val,irm_val,irr_val = ir_read();
+    d = distance()
+  
+  //switch among 2 diff strategy
+    switch (channel)
+    {
+      case : ; break;
+      case : ; break;
+    }
+  
+  //terminate
+  if (channel == ) break
+  
+    
+    
 }
