@@ -40,6 +40,14 @@ int L_Speed = 0;
 int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
+//init utltrasonic sensor params
+int echoPin = ;
+int trigPin = ;
+long duration;
+float distance;
+float diag = 184.3; //the distance betwn the tip of the gripper and the arm
+float gripper_len = ;//len of whole gripper
+double theta = asin(gripper_len/diag);//angle betwn diag line and arm, to calc angle of 2 base servo
 
 
 void setup() {
@@ -71,7 +79,12 @@ void setup() {
   //Start serial comm for troubleshooting through serial monitor
   //Serial.begin(baud rate);
   Serial.begin(115200);
+  
+  //setup utrasonic sensor
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 }
+
 
 
 
@@ -185,6 +198,11 @@ void loop() {
     pos_gripper = 70;
     servo_gripper.write(pos_gripper);
     }
+  
+  //ultra sensor to calc dist and then pickup ball/cube
+
+  
+  
 
 
     
@@ -313,4 +331,38 @@ int readChannel(int channelNumber) {
   //Serial.print(value);
   //Serial.println(", ");
   return value;
+}
+
+float distance(){
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  return distance;
+}
+
+void pick(int channel, distance, theta, diag){
+  
+  if channel == {pick_cube()}
+  elif channel == {pick_ball()}
+}
+
+void pick_cube(){
+  
+
+}
+
+void pick_ball(){
+  
 }
