@@ -12,6 +12,11 @@ int pos_base1 = 0;
 int pos_base2 = 0;
 int pos_gripper = 0;
 
+//fixed angle for picking up balls or cubes
+float shoulder[] = [,];//fix an angle to pick cube:0/ball:1
+float gripper_init = [,];//fix gripper angle for picking up cube:0/ball:1
+float gripper_pick = [,];
+
 //Global Pins Assignment for motor pins, and motor enable pins
 //IN1-IN4 pins can be connected to both digital and analog pins
 //EN1-EN2 pins to be connected to D3, D5, D6, D9, D10, or D11
@@ -353,30 +358,30 @@ float distance(){
   return distance;
 }
 
-void pick(int channel, double theta, float diag){
+void pick(int channel, float shoulder, float gripper_init, float gripper_pick){
   //cube
-  if channel == 
-  {int lower = 30;
-   int upper = 100;
-   double beta = ;//fix an angle to pick cube
-   float pos_gripper = ;//angle for picking up
-   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
-    }
+  if channel == {pick_helper(float shoulder[0], float gripper_init[0],float gripper_pick[0])}
   //ball
-  elif channel == 
-  {int lower = 15;
-   int upper = 45;
-   double beta = ;//fix an angle to pick ball
-   float pos_gripper = ;//angle for picking up
-   pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper)
-    }
+  elif channel == {pick_helper(float shoulder[1],  float gripper_init[0], float gripper_pick[1])}
 }
 
-void pick_helper(double theta, float diag, int lower, int upper, double beta,float pos_gripper){
-  double c = 0;//init c: dist btw tip of gripper and inner edge of cube/ball
+void pick_helper(float shoulder,float gripper_init,float gripper_pick){
+  
+  float shoulder_picked = ;
+  
+  //lower down the arm
+  pos_base1 = pos_base2 = shoulder;
+  servo_base1.write(pos_base1);
+  servo_base2.write(pos_base2);
+  
+  //prepare to pick
+  servo_gripper.write(gripper_init);
+  
+  //pick
+  servo_gripper.write(gripper_pick);
   
   //lift arm to nearly vertical
-  pos_base1 = pos_base2 = ;
+  pos_base1 = pos_base2 = shoulder_picked;
   servo_base1.write(pos_base1);
   servo_base2.write(pos_base2);
   
@@ -396,33 +401,101 @@ float ir_read(){
   return irl_val,irm_val,irr_val;
 }
 
-void follow_line(){
+//follow a staright line autoly
+void straight_fwd(){
   irl_val,irm_val,irr_val = ir_read();
   //0 is white, 1 is black
-  while (irm_val == 1 && irl_val == 0 && irr_val == 0){
+  if (irm_val == 1 && irl_val == 0 && irr_val == 0){
     leftFwd();
     rightFwd();
     Dir = true;
     speed_Check(Dir, 1600, 1500, 1550, 2000);
-    delaymicroseconds(10)
   }
+  if (irm_val == 0 && irl_val == 0 && irr_val == 1){
+    //turn right
+    leftFwd();
+    rightBwd();
+    rotate(1600, 1550, 2000);
+  }
+  if (irm_val == 0 && irl_val == 1 && irr_val == 0){
+    //turn left
+    rightFwd();
+    leftBwd();
+    rotate(1400, 1550, 2000);
+  }
+   if (irm_val == 1 && irl_val == 1 && irr_val == 1)
+     break;
+   delaymicroseconds(50);
 }
 
+//follow a staright line autoly
+void straight_bwd(){
+  irl_val,irm_val,irr_val = ir_read();
+  //0 is white, 1 is black
+  if (irm_val == 1 && irl_val == 0 && irr_val == 0){
+    leftBwd();
+    rightBwd();
+    Dir = false;
+    speed_Check(Dir, 1600, 1500, 1550, 2000);
+  }
+  if (irm_val == 0 && irl_val == 1 && irr_val == 0){
+    //turn right
+    leftFwd();
+    rightBwd();
+    rotate(1600, 1550, 2000);
+  }
+  if (irm_val == 0 && irl_val == 0 && irr_val == 1){
+    //turn left
+    rightFwd();
+    leftBwd();
+    rotate(1400, 1550, 2000);
+  }
+   if (irm_val == 1 && irl_val == 1 && irr_val == 1)
+     break;
+   delaymicroseconds(50);
+}
+
+
+//start auto period
 void autonomous(int channel){
-  //read sensor value and do sth
-    irl_val,irm_val,irr_val = ir_read();
-    d = distance()
-  
   //switch among 2 diff strategy
+  //pick one green ball for both
     switch (channel)
     {
-      case : ; break;
-      case : ; break;
+      case : autonomous_red(); break;
+      case : autonomous_blue(); break;
     }
   
-  //terminate
-  if (channel == ) break
+void autonomous_red(){
   
+  //go straight
+    while (1){straight_fwd()}
     
+  //turn right
+    leftFwd();
+    rightBwd();
+    rotate(1600, 1550, 2000);
+  
+  //straight
+  while (1){straight_fwd()}
+  
+  //pick up a ball
+  pick(channel = , float shoulder, float gripper_init, float gripper_pick);//insert channel value for picking ball
+
+  //go back
+   while (1){straight_bwd()}
+  
+  //turn right
+  leftFwd();
+  rightBwd();
+  rotate(1600, 1550, 2000);
+  
+  //straight
+  while (1){straight_fwd()}
+  
+  //go straight to put ball on the stovetop
+  d = 1000
+  while (d>){
+    d = distance()}
     
 }
