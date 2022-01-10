@@ -46,10 +46,17 @@ int trigPin = ;
 long duration;
 float distance;
 float diag = 184.3; //the distance betwn the tip of the gripper and the arm
-float gripper_len = ;//len of whole gripper
-double theta = asin(gripper_len/diag);//angle betwn diag line and arm, to calc angle of 2 base servo
 float s = ;//dist btw the fron edge of servo mount and the ultra sensor
 
+//init IR sensor pins
+int irPinl = 4;//IR sensor digital pin left
+int irPinm = 7;//IR sensor digital pin middle
+int irPinr = 8;//IR sensor digital pin right
+
+/*mayn not use but may use to terminate
+int interruptPin = ;//any digital pin that is unused for terminating auto periord
+volatile byte state = LOW;//LOW means auto is starting
+*/
 
 void setup() {
   //Assign servo motors to pins, can be any digital pins
@@ -84,8 +91,16 @@ void setup() {
   //setup utrasonic sensor
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  
+  //set up irsensor pins
+  pinMode(irPinl, INPUT);
+  pinMode(irPinm, INPUT);
+  pinMode(irPinr, INPUT);
+  
+  /*for interrupt
+  pinMode(interruptPin, INPUT);
+  attachInterrupt(digitalPinToInterrupt(interruptPin),terminate , HIGH);*/
 }
-
 
 
 
@@ -109,6 +124,13 @@ void loop() {
   int swd = readChannel(6);
   int swb = readChannel(7);
   int swc = readChannel(8);
+  
+  //start auto function
+  while() {autonomous()}
+  //insert channel value for starting auto period
+  //one iteration is calc to be 30 sec sharp, will be terminate when pressed another button?
+
+  
   
 
   //If the left stick is pushed down, wheels on both sides will
@@ -389,7 +411,7 @@ void pick_helper(double theta, float diag, int lower, int upper, double beta){
     Dir = false;
     speed_Check(Dir, 1100, 1500, 1450, 1000);
     }
-    delaymicroseconds(100)
+    delaymicroseconds(10)
   }
   //close gripper
   pos_gripper = ;
@@ -406,4 +428,19 @@ void pick_helper(double theta, float diag, int lower, int upper, double beta){
 void release(){
   pos_gripper = ;
   servo_gripper.write(pos_gripper);
+}
+
+//read irsensor val,return analog and digit values
+float ir_read(){
+  irl_val = digitalRead(irPinl);
+  irm_val = digitalRead(irPinm);
+  irr_val = analogRead(irPinr);
+  return irl_val,irm_val,irr_val
+}
+
+void autonomous(int channel){
+    irl_val,irm_val,irr_val = ir_read();
+    
+    //finish auto
+    if () break;
 }
