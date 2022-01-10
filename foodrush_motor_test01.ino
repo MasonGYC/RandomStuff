@@ -434,12 +434,36 @@ void release(){
 float ir_read(){
   irl_val = digitalRead(irPinl);
   irm_val = digitalRead(irPinm);
-  irr_val = analogRead(irPinr);
-  return irl_val,irm_val,irr_val
+  irr_val = digitalRead(irPinr);
+  return irl_val,irm_val,irr_val;
+}
+
+void follow_line(){
+  irl_val,irm_val,irr_val = ir_read();
+  //0 is white, 1 is black
+  if (irm_val == 1 && irl_val == 0 && irr_val == 0){
+    leftFwd();
+    rightFwd();
+    Dir = true;
+    speed_Check(Dir, 1600, 1500, 1550, 2000);
+  }
 }
 
 void autonomous(int channel){
+  //read sensor value and do sth
     irl_val,irm_val,irr_val = ir_read();
+    d = distance()
+  
+  //switch among 2 diff strategy
+    switch (channel)
+    {
+      case : ; break;
+      case : ; break;
+    }
+  
+  //terminate
+  if (channel == ) break
+  
     
     
 }
