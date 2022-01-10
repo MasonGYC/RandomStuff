@@ -126,13 +126,11 @@ void loop() {
   int swc = readChannel(8);
   
   //start auto function
-  while() {autonomous()}
   //insert channel value for starting auto period
-  //one iteration is calc to be 30 sec sharp, will be terminate when pressed another button?
-
+  //one iteration is calc to be 30 sec sharp, will be terminate after finishing this round
+  if() {autonomous()}
   
   
-
   //If the left stick is pushed down, wheels on both sides will
   //rotate forward. Speed of both sides will be calculated
   //with the "speed_Check" function.
@@ -229,27 +227,7 @@ void loop() {
 
 
     
-  /* not working well --using one SWx(SWB) pin to control the gripper
-  //if swb is up:
-  //the gripper prepares to grab the ball
-  if (swc < 1400){
-    pos_gripper = 20;}
-  //if swb is down:
-  //the gripper prepares to grab the cube
-  else if (swc >1600){
-    pos_gripper = 170;}
-  servo_gripper.write(pos_gripper);
 
-  if (swc >= 1400 and swc <= 1600 and pos_gripper == 170){
-    pos_gripper = 155;}
-  else if (swc >= 1400 and swc <= 1600 and pos_gripper == 20){
-    pos_gripper = 5;}
-  servo_gripper.write(pos_gripper);
-
-  Serial.println(pos_gripper);
-  unsigned value = ppm.latestValidChannelValue(8, 0);
-  Serial.println(value);
-  */
   
     
 
