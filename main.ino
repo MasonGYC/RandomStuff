@@ -47,11 +47,13 @@ int L_Speed = 0;
 int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
-//angles: grab balls
+//auto: angles for arms to grab balls
 int base_1_low = 167;
 int base_2_low = 13;
 int base_1_high = 87;
 int base_2_high = 93;
+
+// grab balls
 int ball_prepare = 55;
 int ball_pick = 47;
 
@@ -189,25 +191,25 @@ void loop() {
   //increase value to tighten, decrease to loose 
   //the gripper prepares to grab the ball
   if (swa == 1000 and swd == 1000){
-    pos_gripper = 49;
+    pos_gripper = ball_prepare;
     servo_gripper.write(pos_gripper);
     }
   //if swa is up and swd is down:
   //the gripper grabbed the ball
   else if (swa == 1000 and swd == 2000){
-    pos_gripper = 41;
+    pos_gripper = ball_pick;
     servo_gripper.write(pos_gripper);
     }
   //if swa is down and swd is up:
   //the gripper prepares to grab the cube
   else if (swa == 2000 and swd == 1000){
-    pos_gripper = 89;
+    pos_gripper = cube_prepare;
     servo_gripper.write(pos_gripper);
     }
   //if swa is down and swd is down:
   //the gripper grabbed the cube
   else if (swa == 2000 and swd == 2000){
-    pos_gripper = 71;
+    pos_gripper = cube_pick;
     servo_gripper.write(pos_gripper);
     }
 
