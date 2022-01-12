@@ -205,8 +205,11 @@ void loop() {
     pos_gripper = 63;
     servo_gripper.write(pos_gripper);
     }
-
-    
+  Serial.print("pos_base1:"); 
+  Serial.print(pos_base1); 
+  Serial.print(";"); 
+  Serial.print("pos_base2:"); 
+  Serial.print(pos_base2);
 
   delay(10);
 }
