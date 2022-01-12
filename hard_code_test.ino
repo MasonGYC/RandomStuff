@@ -79,18 +79,18 @@ void start_to_pick_blue_ball_blueside(){
   /*step1*/
   //110cm, from start to reaching blue ball center line
   int duration = 6;//time in sec in integer, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
   /*step2*/
   //turn right
   int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){turn_left();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
@@ -98,54 +98,53 @@ void start_to_pick_blue_ball_blueside(){
   //calc dist and pick a blue ball
   float dist = ;//dist btw wall and ultra
   float d = 0; 
-  while (d<=dist and d>=0.05){
+  while ((d>=dist) and (d>=0.1)){
     go_forward();
-    d = distance();}
-    
+    d = distance();}  
   pick();
 
   /*step4*/
   //turn right
   int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){turn_left();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
   
   /*step5*/
   //go straight back to starting zone, deviate 
   int duration = 6;//time in sec in integer, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
   /*step6*/
   //turn right
   int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){turn_left();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
   /*step7*/
   //go straight back to starting zone, deviate 
   int duration = 4;//time in sec in integer, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
   /*step7*/
   //turn left
   int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < (duration/1.5); times++){
+  for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 300000; count++){turn_left();}
+    for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
 
@@ -153,11 +152,12 @@ void start_to_pick_blue_ball_blueside(){
   //calc dist and pick a blue ball
   float dist = ;//dist btw stovetop and ultra
   float d = 0; 
-  while (d<=dist){
+  while ((d>=dist) and (d>=0.1)){
     go_forward();
     d = distance();}
     
   /*step9*/
+  //put ball on stovetop
   release_ball();
 
   /*step10*/
@@ -188,6 +188,25 @@ void release_ball(){
   servo_gripper.write(ball_prepare);
   }
   
+float distance(){
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  return distance;
+}
+
 void speed_Check(bool dir, int throttle_Val,int steering_Val, int l_Limit, int r_Limit) {
   //Set minimum value for the motors to be 127
   //Map the input values from the controller to the
@@ -318,3 +337,4 @@ int readChannel(int channelNumber) {
   //Serial.println(", ");
   return value;
 }
+
