@@ -61,8 +61,9 @@ void setup() {
 }
 
 void loop() {
-  int swa = readChannel(5);
-  if (swa>1900){
+  int swb = readChannel(7);
+  if (swb >= 1400 && swb < 1600) // swb is in the middle
+  {
   start_to_pick_blue_ball_blueside();
 }
 else{
