@@ -48,11 +48,6 @@ int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
 
-//init IR sensor pins
-int irPinl = 4;//IR sensor digital pin left
-int irPinm = 7;//IR sensor digital pin middle
-int irPinr = 8;//IR sensor digital pin right
-
 void setup() {
   //Assign servo motors to pins, can be any digital pins
   //ServoName.attach(pin_Number);
@@ -110,8 +105,8 @@ void loop() {
   //start auto period,grab 1 green and 1 blue
   //B&C:up is 1000, middle is 1500, down is 2000
   //down is default
-  if(swc >= 1400 and swc<=1600) {straight_fwd();}
-  else if(swc >= 1900 and swc<=2100) {straight_bwd();}
+  if(swc >= 1400 and swc<=1600) {go_forward();}
+  else if(swc >= 1900 and swc<=2100) {go_backward();}
 
   //If the left stick is pushed down, wheels on both sides will
   //rotate forward. Speed of both sides will be calculated
@@ -358,50 +353,3 @@ void go_backward(){
     speed_Check(Dir, 1600, 1500, 1550, 2000);
     delay(10);}
 
-
-//read irsensor val,return analog and digit values
-float ir_read(){
-  float irl_val,irm_val,irr_val;
-  irl_val = digitalRead(irPinl);
-  irm_val = digitalRead(irPinm);
-  irr_val = digitalRead(irPinr);
-  delay(10);
-  return irl_val,irm_val,irr_val;
-}
-//follow a staright line autoly
-void straight_fwd(){
-  float irl_val,irm_val,irr_val;
-  irl_val,irm_val,irr_val = ir_read();
-  //0 is white, 1 is black
-  if ((irm_val == 1 && irl_val == 0 && irr_val == 0)||(irm_val == 0 && irl_val == 0 && irr_val == 0)){
-    go_forward();
-  }
-  if (irm_val == 0 && irl_val == 0 && irr_val == 1){
-    turn_right();
-  }
-  if (irm_val == 0 && irl_val == 1 && irr_val == 0){
-    turn_left();
-  }
-   if (irm_val == 1 && irl_val == 1 && irr_val == 1)
-    return;
-   delayMicroseconds(50);
-}
-
-//follow a staright line autoly
-void straight_bwd(){
-  float irl_val,irm_val,irr_val;
-  irl_val,irm_val,irr_val = ir_read();
-  //0 is white, 1 is black
-  if (irm_val == 1 && irl_val == 0 && irr_val == 0){
-    go_backward();
-  }
-  if (irm_val == 0 && irl_val == 1 && irr_val == 0){
-    turn_right();
-  }
-  if (irm_val == 0 && irl_val == 0 && irr_val == 1){
-    turn_left();
-  }
-   if (irm_val == 1 && irl_val == 1 && irr_val == 1)
-     return;
-   delayMicroseconds(50);
-}
