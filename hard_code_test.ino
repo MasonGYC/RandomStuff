@@ -46,10 +46,10 @@ int cube_prepare = 85;
 int cube_pick = 71;
 
 //speed when auto
-float v_f = ;// 1cm/sec,go forward
-float v_b = ;// 1cm/sec,go backward
-float w_l = ;// 1 degree/sec, turn left
-float w_r = ;// 1 degree/sec, turn right
+float v_f = 46.2;// 1cm/sec,go forward 4.33 for 200cm
+float v_b = 48.0;// 1cm/sec,go backward 4.1666 for 2m
+float w_l = 136.7;// 1 degree/sec, turn left 13.166 for 5 rounds
+float w_r = 130.1;// 1 degree/sec, turn right 13.833 for 5 rounds
 
 //deviation angle when going forward (100cm for 6cm)
 float angle_dev = 90 - atan(100/6);
@@ -100,7 +100,7 @@ else{
 //auto
 
 //ultra read
-void distance() {
+float distance() {
   // Clears the trigPin condition
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -116,6 +116,7 @@ void distance() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
+  return distance;
 }
 
 //go forward for straight line distance in cm, speed in sec
@@ -243,7 +244,7 @@ void start_to_pick_blue_ball_blueside(){
 
   /*step8*/
   //calc dist and pick a blue ball
-  float dist = 10;//dist btw stovetop and ultra
+  float dist = 7;//dist btw stovetop and ultra
   float d = 0; 
   while ((d>=dist) and (d>=0.1)){
     go_forward();
