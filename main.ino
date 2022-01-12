@@ -47,13 +47,15 @@ int L_Speed = 0;
 int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
-//angles
+//angles: grab balls
 int base_1_low = 167;
 int base_2_low = 13;
 int base_1_high = 87;
 int base_2_high = 93;
 int ball_prepare = 55;
 int ball_pick = 47;
+
+// grab cubes
 int cube_prepare = 85;
 int cube_pick = 71;
 
