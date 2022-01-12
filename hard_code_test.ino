@@ -33,12 +33,17 @@ int L_Speed = 0;
 int R_Speed = 0;
 bool Dir = true; //Forward = true, Backward = false
 
-int base_1_low = ;
-int base_2_low = ;
-int base_1_high = ;
-int base_2_high = ;
-int ball_prepare = 45;
-int ball_pick = 37;
+//angle for picking balls
+int base_1_low = 167;
+int base_2_low = 13;
+int base_1_high = 87;
+int base_2_high = 93;
+int ball_prepare = 55;
+int ball_pick = 47;
+
+//angles gripper for picking cubes
+int cube_prepare = 85;
+int cube_pick = 71;
 
 void setup() {
 
