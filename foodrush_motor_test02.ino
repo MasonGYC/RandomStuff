@@ -172,34 +172,36 @@ void loop() {
   //servo_gripper
 
 
-  //ball: prepare: 45 grabbed: 15
-  //cube: prepare: 75 grabbed: 55
   
-  //using two SWx(SWA&SWD) pins to control the position of servo_griper
+//using two SWx(SWA&SWD) pins to control the position of servo_griper
   //if swa is up and swd is up:
+  //increase value to tighten, decrease to loose 
   //the gripper prepares to grab the ball
   if (swa == 1000 and swd == 1000){
-    pos_gripper = 45;
+    pos_gripper = 49;
     servo_gripper.write(pos_gripper);
     }
   //if swa is up and swd is down:
   //the gripper grabbed the ball
   else if (swa == 1000 and swd == 2000){
-    pos_gripper = 33;
+    pos_gripper = 41;
     servo_gripper.write(pos_gripper);
     }
   //if swa is down and swd is up:
   //the gripper prepares to grab the cube
   else if (swa == 2000 and swd == 1000){
-    pos_gripper = 85;
+    pos_gripper = 89;
     servo_gripper.write(pos_gripper);
     }
   //if swa is down and swd is down:
   //the gripper grabbed the cube
   else if (swa == 2000 and swd == 2000){
-    pos_gripper = 63;
+    pos_gripper = 71;
     servo_gripper.write(pos_gripper);
     }
+
+  
+  //Serial.print pos_base for auto param calc
   Serial.print("pos_base1:"); 
   Serial.print(pos_base1); 
   Serial.print(";"); 
