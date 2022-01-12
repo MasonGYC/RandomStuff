@@ -45,6 +45,22 @@ int ball_pick = 47;
 int cube_prepare = 85;
 int cube_pick = 71;
 
+//speed when auto
+float v_f = ;// 1cm/sec,go forward
+float v_b = ;// 1cm/sec,go backward
+float w_l = ;// 1 degree/sec, turn left
+float w_r = ;// 1 degree/sec, turn right
+
+//deviation angle when going forward (100cm for 6cm)
+float angle_dev = 90 - atan(100/6);
+
+//ultrasonic sensor 
+int echoPin = 7;
+int trigPin = 8;
+long duration; // variable for the duration of sound wave travel
+float distance; // variable for the distance measurement
+
+
 void setup() {
 
   //Setting the L298N pins as output pins
@@ -59,6 +75,10 @@ void setup() {
   pinMode(BR_FwdPin, OUTPUT);
   pinMode(BR_BwdPin, OUTPUT);
   pinMode(R_EN, OUTPUT);
+  
+  //ultra
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
 
   //Start serial comm for troubleshooting through serial monitor
   //Serial.begin(baud rate);
@@ -78,97 +98,66 @@ else{
 }
 
 //auto
-void start_to_pick_blue_ball_blueside(){
-  //1m per 6cm deviation
 
-  /*step1*/
-  //110cm, from start to reaching blue ball center line
-  int duration = 6;//time in sec in integer, got delay somehow
+//ultra read
+void distance() {
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+}
+
+//go forward for straight line distance in cm, speed in sec
+void go_forward_def_dis(float displacement){
+  float duration = displacement/v_f;
   for (int times = 0; times < duration; times++){
     //1 second
     for (int count = 0; count < 200000; count++){go_forward();}
   }
   delay(200);
+}
 
-  /*step2*/
-  //turn right
-  int duration = 1.5;//time in sec in product of 1.5, got delay somehow
+//go forward for straight line distance in cm, speed in sec
+void go_forward_def_dis(float displacement){
+  float duration = displacement/v_b;
   for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){go_backward();}
   }
   delay(200);
+}
 
-  /*step3*/
-  //calc dist and pick a blue ball
-  float dist = ;//dist btw wall and ultra
-  float d = 0; 
-  while ((d>=dist) and (d>=0.1)){
-    go_forward();
-    d = distance();}  
-  pick();
-
-  /*step4*/
-  //turn right
-  int duration = 1.5;//time in sec in product of 1.5, got delay somehow
+//turn right for some angle in degree, speed in sec
+void turn_right_def_angle(float angle){
+  float duration = angle/w_r;
   for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){turn_right();}
   }
   delay(200);
-  
-  /*step5*/
-  //go straight back to starting zone, deviate 
-  int duration = 6;//time in sec in integer, got delay somehow
+}
+
+//turn left for some angle in degree, speed in sec
+void turn_right_def_angle(float angle){
+  float duration = angle/w_l;
   for (int times = 0; times < duration; times++){
     //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
+    for (int count = 0; count < 200000; count++){turn_left();}
   }
   delay(200);
+}
 
-  /*step6*/
-  //turn right
-  int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < duration; times++){
-    //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
-  }
-  delay(200);
-
-  /*step7*/
-  //go straight back to starting zone, deviate 
-  int duration = 4;//time in sec in integer, got delay somehow
-  for (int times = 0; times < duration; times++){
-    //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
-  }
-  delay(200);
-
-  /*step7*/
-  //turn left
-  int duration = 1.5;//time in sec in product of 1.5, got delay somehow
-  for (int times = 0; times < duration; times++){
-    //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
-  }
-  delay(200);
-
-  /*step8*/
-  //calc dist and pick a blue ball
-  float dist = ;//dist btw stovetop and ultra
-  float d = 0; 
-  while ((d>=dist) and (d>=0.1)){
-    go_forward();
-    d = distance();}
-    
-  /*step9*/
-  //put ball on stovetop
-  release_ball();
-
-  /*step10*/
-  //go back to green ball center line
-  
-  }
 void pick(){  
 //lower down the arm
   pos_base1 = base_1_low;
@@ -211,6 +200,63 @@ float distance(){
   Serial.println(" cm");
   return distance;
 }
+
+void start_to_pick_blue_ball_blueside(){
+  //1m per 6cm deviation
+
+  /*step1*/
+  //110cm, from start to reaching blue ball center line
+  go_forward_def_dis(110);
+
+  /*step2*/
+  //turn right
+  turn_right_def_angle(90-angle_dev);
+
+  /*step3*/
+  //calc dist and pick a blue ball
+  float dist = ;//dist btw wall and ultra
+  float d = 0; 
+  while ((d>=dist) and (d>=0.1)){
+    go_forward();
+    d = distance();}  
+  pick();
+
+  /*step4*/
+  //turn right
+  turn_right_def_angle(90);
+  
+  /*step5*/
+  //go straight back to starting zone, deviate 
+  go_forward_def_dis(110);
+
+  /*step6*/
+  //turn right
+  turn_right_def_angle(90-angle_dev);
+
+  /*step7*/
+  //go straight back to starting zone, deviate 
+  go_forward_def_dis(110);
+
+  /*step7*/
+  //turn left
+  turn_right_def_angle(90-angle_dev);
+
+  /*step8*/
+  //calc dist and pick a blue ball
+  float dist = 10;//dist btw stovetop and ultra
+  float d = 0; 
+  while ((d>=dist) and (d>=0.1)){
+    go_forward();
+    d = distance();}
+    
+  /*step9*/
+  //put ball on stovetop
+  release_ball();
+
+  /*step10*/
+  //go back to green ball center line
+  
+  }
 
 void speed_Check(bool dir, int throttle_Val,int steering_Val, int l_Limit, int r_Limit) {
   //Set minimum value for the motors to be 127
