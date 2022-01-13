@@ -53,9 +53,9 @@ int base_2_low = 13;
 int base_1_high = 87;
 int base_2_high = 93;
 
-// grab balls
+// grab balls1
 int ball_prepare = 55;
-int ball_pick = 47;
+int ball_pick = 45;
 
 // grab cubes
 int cube_prepare = 90;
