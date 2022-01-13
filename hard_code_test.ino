@@ -38,11 +38,14 @@ int base_1_low = 167;
 int base_2_low = 13;
 int base_1_high = 87;
 int base_2_high = 93;
-int ball_prepare = 55;
-int ball_pick = 47;
 
-//angles gripper for picking cubes
-int cube_prepare = 85;
+
+// grab balls1
+int ball_prepare = 55;
+int ball_pick = 45;
+
+// grab cubes
+int cube_prepare = 90;
 int cube_pick = 71;
 
 //speed when auto
@@ -60,6 +63,11 @@ int trigPin = 8;
 long duration; // variable for the duration of sound wave travel
 float distance; // variable for the distance measurement
 
+//auto time calc
+float now;
+float now_init;
+float interval[50];
+int step_num;//index of interval, for define elapsed time for each step
 
 void setup() {
 
@@ -122,10 +130,11 @@ float distance() {
 //go forward for straight line distance in cm, speed in sec
 void go_forward_def_dis(float displacement){
   float duration = displacement/v_f;
-  for (int times = 0; times < duration; times++){
-    //1 second
-    for (int count = 0; count < 200000; count++){go_forward();}
-  }
+  now_init = millis();
+  now = now_init;
+  while ((now-now_init)<1000*duration){
+    go_forward();
+    now = millis();}
   delay(200);
 }
 
