@@ -69,8 +69,7 @@ float distance; // variable for the distance measurement
 //auto time calc
 float now;
 float now_init;
-float interval[50];
-int step_num;//index of interval, for define elapsed time for each step
+float displacement;
 
 void setup() {
 
