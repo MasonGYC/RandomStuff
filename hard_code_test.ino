@@ -120,8 +120,8 @@ void go_forward_def_dis(float displacement){
   delay(200);
 }
 
-//go forward for straight line distance in cm, speed in sec
-void go_forward_def_dis(float displacement){
+//go backward for straight line distance in cm, speed in sec
+void go_backward_def_dis(float displacement){
   float duration = displacement/v_b;
   for (int times = 0; times < duration; times++){
     //1 second
@@ -141,7 +141,7 @@ void turn_right_def_angle(float angle){
 }
 
 //turn left for some angle in degree, speed in sec
-void turn_right_def_angle(float angle){
+void turn_left_def_angle(float angle){
   float duration = angle/w_l;
   for (int times = 0; times < duration; times++){
     //1 second
