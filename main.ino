@@ -58,7 +58,7 @@ int ball_prepare = 55;
 int ball_pick = 47;
 
 // grab cubes
-int cube_prepare = 85;
+int cube_prepare = 90;
 int cube_pick = 71;
 
 void setup() {
