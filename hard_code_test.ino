@@ -39,14 +39,17 @@ int base_2_low = 13;
 int base_1_high = 87;
 int base_2_high = 93;
 
-
-// grab balls1
+// grab balls
 int ball_prepare = 55;
 int ball_pick = 45;
 
 // grab cubes
 int cube_prepare = 90;
 int cube_pick = 71;
+
+//ultra
+float dist;
+float d;
 
 //speed when auto
 float v_f = 46.2;// 1cm/sec,go forward 4.33 for 200cm
@@ -106,26 +109,6 @@ else{
 }
 
 //auto
-
-//ultra read
-float distance() {
-  // Clears the trigPin condition
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  duration = pulseIn(echoPin, HIGH);
-  // Calculating the distance
-  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-  // Displays the distance on the Serial Monitor
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
-  return distance;
-}
 
 //go forward for straight line distance in cm, speed in sec
 void go_forward_def_dis(float displacement){
@@ -192,7 +175,7 @@ void release_ball(){
   servo_gripper.write(ball_prepare);
   }
   
-float distance(){
+float ultra_read(){
   // Clears the trigPin condition
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -224,11 +207,11 @@ void start_to_pick_blue_ball_blueside(){
 
   /*step3*/
   //calc dist and pick a blue ball
-  float dist = ;//dist btw wall and ultra
-  float d = 0; 
+  dist = 7;//dist btw wall and ultra
+  d = 0; 
   while ((d>=dist) and (d>=0.1)){
     go_forward();
-    d = distance();}  
+    d = ultra_read();}  
   pick();
 
   /*step4*/
@@ -253,11 +236,11 @@ void start_to_pick_blue_ball_blueside(){
 
   /*step8*/
   //calc dist and pick a blue ball
-  float dist = 7;//dist btw stovetop and ultra
-  float d = 0; 
+  dist = 7;//dist btw stovetop and ultra
+  d = 0; 
   while ((d>=dist) and (d>=0.1)){
     go_forward();
-    d = distance();}
+    d = ultra_read();}
     
   /*step9*/
   //put ball on stovetop
