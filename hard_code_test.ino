@@ -5,6 +5,23 @@
 //ps:
 //6cm: deviation to run 110cm in 255 speed from the center line, 110 is for the mid of car to reach destination line, car head alinn with starting zone edge
 
+//Instantiate servo motor objects, names can be changed
+//Servo servo_Name;
+Servo servo_base1;
+Servo servo_base2;
+Servo servo_gripper;
+
+float pos_base1 = 0;
+float pos_base2 = 0;
+float pos_gripper = 0;
+
+//default: 127-255
+int l_max_speed = 255;
+int l_min_speed = 127;
+
+int r_max_speed = 255;
+int r_min_speed = 127;
+
 //Global Pins Assignment for motor pins, and motor enable pins
 //IN1-IN4 pins can be connected to both digital and analog pins
 //EN1-EN2 pins to be connected to D3, D5, D6, D9, D10, or D11
