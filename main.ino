@@ -101,10 +101,10 @@ void loop() {
   //channel 3 is right stick(up and down)
   //channel 4 is left stick(left and right)
   //int channel_Name = readChannel(channel_Number);
-  int c1 = readChannel(1);
+  int c4 = readChannel(1);
   int c2 = readChannel(2);
   int c3 = readChannel(3);
-  int c4 = readChannel(4);
+  int c1 = readChannel(4);
 
   //aux. channels value:
   //key: when press is 2000, release is 1000
